@@ -16,7 +16,10 @@ let package = Package(
             publicHeadersPath: "public",
             cxxSettings: [
                 .define("USE_UNSTABLE_GEOS_CPP_API"),
-                .headerSearchPath("include")])
+                .define("GEOS_INLINE"),
+                .define("NDEBUG"),
+                .headerSearchPath("include"),
+                .headerSearchPath("src/deps")])
     ],
     cxxLanguageStandard: .cxx11
 )
