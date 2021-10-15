@@ -63,10 +63,10 @@ extern "C" {
 #define GEOS_VERSION_MINOR 10
 #endif
 #ifndef GEOS_VERSION_PATCH
-#define GEOS_VERSION_PATCH 0beta3
+#define GEOS_VERSION_PATCH 0rc1
 #endif
 #ifndef GEOS_VERSION
-#define GEOS_VERSION "3.10.0beta3"
+#define GEOS_VERSION "3.10.0rc1"
 #endif
 #ifndef GEOS_JTS_PORT
 #define GEOS_JTS_PORT "1.18.0"
@@ -75,7 +75,7 @@ extern "C" {
 #define GEOS_CAPI_VERSION_MAJOR 1
 #define GEOS_CAPI_VERSION_MINOR 16
 #define GEOS_CAPI_VERSION_PATCH 0
-#define GEOS_CAPI_VERSION "3.10.0beta3-CAPI-1.16.0"
+#define GEOS_CAPI_VERSION "3.10.0rc1-CAPI-1.16.0"
 
 #define GEOS_CAPI_FIRST_INTERFACE GEOS_CAPI_VERSION_MAJOR
 #define GEOS_CAPI_LAST_INTERFACE (GEOS_CAPI_VERSION_MAJOR+GEOS_CAPI_VERSION_MINOR)
@@ -1380,7 +1380,7 @@ extern int GEOS_DLL GEOSNormalize_r(
     GEOSGeometry* g);
 
 /**
-* Controls the behavior of GEOSGeometry_setPrecision()
+* Controls the behavior of GEOSGeom_setPrecision()
 * when altering the precision of a geometry.
 */
 enum GEOSPrecisionRules {
@@ -1813,9 +1813,9 @@ extern GEOSGeoJSONWriter GEOS_DLL *GEOSGeoJSONWriter_create_r(
 
 /** \see GEOSGeoJSONWriter_destroy */
 extern void GEOS_DLL GEOSGeoJSONWriter_destroy_r(GEOSContextHandle_t handle,
-    GEOSGeoJSONWriter* reader);
+    GEOSGeoJSONWriter* writer);
 
-/** \see GEOSWKTWriter_write */
+/** \see GEOSGeoJSONWriter_writeGeometry */
 extern char GEOS_DLL *GEOSGeoJSONWriter_writeGeometry_r(
     GEOSContextHandle_t handle,
     GEOSGeoJSONWriter* writer,
@@ -3764,7 +3764,7 @@ extern int GEOS_DLL GEOSNormalize(GEOSGeometry* g);
 *        or 0 for FLOATING precision
 * \param flags The bitwise OR of members of the \ref GEOSPrecisionRules enum
 * \return The precision reduced result.
-*         Caller must free with GEOSGeometry_destroy()
+*         Caller must free with GEOSGeom_destroy()
 *         NULL on exception.
 */
 extern GEOSGeometry GEOS_DLL *GEOSGeom_setPrecision(
@@ -3929,7 +3929,7 @@ extern int GEOS_DLL GEOSGeom_getYMax(const GEOSGeometry* g, double* value);
 * \param g Input geometry, must be a LineString
 * \param n Index of desired point (zero based)
 * \return A Point geometry.
-*         Caller must free with GEOSGeometry_destroy()
+*         Caller must free with GEOSGeom_destroy()
 *         NULL on exception.
 */
 extern GEOSGeometry GEOS_DLL *GEOSGeomGetPointN(const GEOSGeometry *g, int n);
@@ -3938,7 +3938,7 @@ extern GEOSGeometry GEOS_DLL *GEOSGeomGetPointN(const GEOSGeometry *g, int n);
 * Return the first point of a LineString
 * \param g Input geometry, must be a LineString
 * \return A Point geometry.
-*         Caller must free with GEOSGeometry_destroy()
+*         Caller must free with GEOSGeom_destroy()
 *         NULL on exception.
 */
 extern GEOSGeometry GEOS_DLL *GEOSGeomGetStartPoint(const GEOSGeometry *g);
@@ -3947,7 +3947,7 @@ extern GEOSGeometry GEOS_DLL *GEOSGeomGetStartPoint(const GEOSGeometry *g);
 * Return the last point of a LineString
 * \param g Input geometry, must be a LineString
 * \return A Point geometry.
-*         Caller must free with GEOSGeometry_destroy()
+*         Caller must free with GEOSGeom_destroy()
 *         NULL on exception.
 */
 extern GEOSGeometry GEOS_DLL *GEOSGeomGetEndPoint(const GEOSGeometry *g);
@@ -4152,7 +4152,7 @@ extern void GEOS_DLL GEOSWKTReader_destroy(GEOSWKTReader* reader);
 * a geometry, and return an allocated geometry.
 * \param reader A WKT reader object, caller retains ownership
 * \param wkt The WKT string to parse, caller retains ownership
-* \return A \ref GEOSGeometry, caller to free with GEOSGeometry_destroy())
+* \return A \ref GEOSGeometry, caller to free with GEOSGeom_destroy())
 */
 extern GEOSGeometry GEOS_DLL *GEOSWKTReader_read(
     GEOSWKTReader* reader,
@@ -4425,7 +4425,7 @@ extern void GEOS_DLL GEOSGeoJSONReader_destroy(GEOSGeoJSONReader* reader);
 * geometrycollection. Feature properties are not read.
 * \param reader A GeoJSON reader object, caller retains ownership
 * \param geojson The json string to parse, caller retains ownership
-* \return A \ref GEOSGeometry, caller to free with GEOSGeometry_destroy())
+* \return A \ref GEOSGeometry, caller to free with GEOSGeom_destroy())
 */
 extern GEOSGeometry GEOS_DLL *GEOSGeoJSONReader_readGeometry(
     GEOSGeoJSONReader* reader,

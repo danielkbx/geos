@@ -23,11 +23,11 @@
 #endif
 
 #ifndef GEOS_VERSION_PATCH
-#define GEOS_VERSION_PATCH 0beta3
+#define GEOS_VERSION_PATCH 0rc1
 #endif
 
 #ifndef GEOS_VERSION
-#define GEOS_VERSION "3.10.0beta3"
+#define GEOS_VERSION "3.10.0rc1"
 #endif
 
 #ifndef GEOS_JTS_PORT
