@@ -6,7 +6,7 @@ rm -rf .update
 mkdir .update
 
 pushd .update
-curl http://download.osgeo.org/geos/geos-3.10.0rc1.tar.bz2 | bunzip2 | tar --strip-components=1 -x
+curl https://download.osgeo.org/geos/geos-3.10.0rc2.tar.bz2 | bunzip2 | tar --strip-components=1 -x
 cmake -DCMAKE_BUILD_TYPE=Release .
 popd
 

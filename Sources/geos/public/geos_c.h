@@ -63,10 +63,10 @@ extern "C" {
 #define GEOS_VERSION_MINOR 10
 #endif
 #ifndef GEOS_VERSION_PATCH
-#define GEOS_VERSION_PATCH 0rc1
+#define GEOS_VERSION_PATCH 0rc2
 #endif
 #ifndef GEOS_VERSION
-#define GEOS_VERSION "3.10.0rc1"
+#define GEOS_VERSION "3.10.0rc2"
 #endif
 #ifndef GEOS_JTS_PORT
 #define GEOS_JTS_PORT "1.18.0"
@@ -75,7 +75,7 @@ extern "C" {
 #define GEOS_CAPI_VERSION_MAJOR 1
 #define GEOS_CAPI_VERSION_MINOR 16
 #define GEOS_CAPI_VERSION_PATCH 0
-#define GEOS_CAPI_VERSION "3.10.0rc1-CAPI-1.16.0"
+#define GEOS_CAPI_VERSION "3.10.0rc2-CAPI-1.16.0"
 
 #define GEOS_CAPI_FIRST_INTERFACE GEOS_CAPI_VERSION_MAJOR
 #define GEOS_CAPI_LAST_INTERFACE (GEOS_CAPI_VERSION_MAJOR+GEOS_CAPI_VERSION_MINOR)
@@ -1384,9 +1384,11 @@ extern int GEOS_DLL GEOSNormalize_r(
 * when altering the precision of a geometry.
 */
 enum GEOSPrecisionRules {
-    /** This option causes GEOSGeom_setPrecision_r() to not attempt at preserving the topology */
+    /** The output is always valid. Collapsed geometry elements (including both polygons and lines) are removed. */
+    GEOS_PREC_VALID_OUTPUT = 0,
+    /** Precision reduction is performed pointwise. Output geometry may be invalid due to collapse or self-intersection. (This might be better called "GEOS_PREC_POINTWISE" - the current name is historical.) */
     GEOS_PREC_NO_TOPO = 1,
-    /** This option causes GEOSGeom_setPrecision_r() to retain collapsed elements */
+    /** Like the default mode, except that collapsed linear geometry elements are preserved. Collapsed polygonal input elements are removed. */
     GEOS_PREC_KEEP_COLLAPSED = 2
 };
 
@@ -3758,6 +3760,15 @@ extern int GEOS_DLL GEOSNormalize(GEOSGeometry* g);
 * Note that operations will always be performed in the precision
 * of the geometry with higher precision (smaller "gridSize").
 * That same precision will be attached to the operation outputs.
+*
+* In the Default and GEOS_PREC_KEEP_COLLAPSED modes invalid input
+* may cause an error to occur, unless the invalidity is below
+* the scale of the requested precision
+*
+* There are only 3 modes. The GEOS_PREC_NO_TOPO mode
+* takes precedence over GEOS_PREC_KEEP_COLLAPSED.
+* So the combination GEOS_PREC_NO_TOPO || GEOS_PREC_KEEP_COLLAPSED
+* has the same semantics as GEOS_PREC_NO_TOPO
 *
 * \param g Input geometry
 * \param gridSize cell size of grid to round coordinates to,
