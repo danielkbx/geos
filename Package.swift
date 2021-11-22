@@ -7,7 +7,7 @@ let package = Package(
     products: [
         .library(
             name: "geos",
-            type: .dynamic,
+            type: .static,
             targets: ["geos"]),
     ],
     targets: [
